@@ -1,1 +1,24 @@
-\section{cnn.tex}
+\section{Convolutional Neural Network}
+
+The CNN is trained on the CIFAR-10 dataset. It is a 60000 images dataset containing 32x32 colored and labeled images. There are 10 labels:
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{|lllll|}
+    \hline Airplane & Automobile & Bird  & Cat  & Deer  \\
+    Dog      & Frog       & Horse & Ship & Truck \\
+    \hline
+  \end{tabular}
+  \caption{CIFAR-10 classes}
+\end{table}
+
+To be able to correctly classify the input images, a multi layer CNN is implemented using the provided coefficient files.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{./Images/Basic-CNN.png}
+  \caption{'Basic' CNN architecture for CIFAR-10}
+\end{figure}
+
+
+

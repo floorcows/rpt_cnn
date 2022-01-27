@@ -1,0 +1,337 @@
+%-------------------------------------------------------------------------------
+%                identification
+%-------------------------------------------------------------------------------
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{rap}[18/11/2020 v1.0.0 mon package de rapport]
+
+%-------------------------------------------------------------------------------
+%                Required packages
+%-------------------------------------------------------------------------------
+\RequirePackage [T1]{fontenc}
+\RequirePackage[utf8]{inputenc}
+\RequirePackage[english]{babel}
+%french
+
+\RequirePackage{fullpage}
+
+%\RequirePackage{tcolorbox} %pour les boites des CR d'élec
+\RequirePackage[table,xcdraw]{xcolor}%               pour gerer les couleurs
+\RequirePackage{rotating} % rotate any object of an arbitrary angle
+%\RequirePackage[european, siunitx]{circuitikz} % circuits électriques
+\RequirePackage{siunitx}
+
+\sisetup{
+    detect-all,
+    output-decimal-marker={,},
+    group-minimum-digits = 3,
+    group-separator={~},
+    number-unit-separator={~},
+    inter-unit-product={~}
+}
+
+%\usetikzlibrary{arrows.meta,quotes,positioning,babel}
+%\def\distance{0.5}
+%\def\leftColor{red}
+%\def\rightColor{blue}
+%\def\Top{4}
+%\def\Bottom{1}
+%\tikzset{
+   %sign1/.style={anchor=center, text=\leftColor},
+   %sign2/.style={anchor=center, text=\rightColor},
+%}
+% \RequirePackage{tikz} % dessin scientifique
+\RequirePackage{caption} % titre des figures
+\RequirePackage{subcaption} % subfigure environment
+\RequirePackage{graphicx} % améliore le includegraphics
+%\RequirePackage{floatrow}  % pour les figures
+%\RequirePackage{float}  % pour les figures
+\RequirePackage{gensymb} % apporte \degree, \celsius, \perthousand, \micro and \ohm which work both in text and maths mode
+
+\setlength{\parindent}{0cm}
+\setlength{\parskip}{1ex plus 0.5ex minus 0.2ex}
+\newcommand{\hsp}{\hspace{20pt}}
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+
+\RequirePackage{mathtools}
+%\RequirePackage{diagbox}%              barres diagonales dans les tableaux
+\RequirePackage{textcomp}%             caracteres additionnels
+\RequirePackage{amsmath,amssymb}%      pour les maths
+\RequirePackage{lmodern}%              variantes : txfonts, fourier, etc.
+\RequirePackage[a4paper]{geometry}%    taille correcte du papier
+\RequirePackage{microtype}%            ameliorations typographiques
+\RequirePackage{listings}%             pour le code informatique
+\RequirePackage{varioref} % références lointaines
+\RequirePackage[pdftex, unicode]{hyperref}%     gestion des hyperliens
+\RequirePackage{cleveref}%             références à côté
+\hypersetup{pdfstartview=XYZ}%     zoom par defaut
+\RequirePackage{xspace}%			  guillemets
+\RequirePackage{tabto}%				  tabulations
+\RequirePackage{verbatim}
+\RequirePackage{fancyhdr}%              Joli en-tête et pied de page
+\RequirePackage{stmaryrd}%             brackets
+\RequirePackage{float}
+\RequirePackage{aliascnt}%				equations caption
+
+
+% \AtEndPreamble hook (loading etoolbox instead of defining the macro, as to avoid incompatibilities with etoolbox (and packages relying on it) defining the macro too)
+\RequirePackage{etoolbox}
+
+%\RequirePackage{fourier}
+% \epstopdfsetup{outdir=./}
+% \graphicspath{ {Images/} }
+
+
+\setlength{\parskip}{1ex plus 0.5ex minus 0.2ex}
+\setlength{\hoffset}{0pt}
+\setlength{\textwidth}{400pt} % Largeur de la zone de texte
+\setlength{\voffset}{-18pt} % Bon pour DOS
+% \setlength{\marginparsep}{7pt} % Séparation de la marge
+\setlength{\topmargin}{0pt} % Pas de marge en haut
+\setlength{\headheight}{35pt} % Haut de page
+\setlength{\headsep}{10pt} % Entre le haut de page et le texte
+\setlength{\footskip}{16pt} % Bas de page + séparation
+\setlength{\textheight}{650pt} % Hauteur de la zone de texte (25cm)
+
+\pagestyle{fancy}
+
+\renewcommand{\footrulewidth}{1pt}
+\fancyfoot[L]{Page n°\thepage}
+\fancyfoot[c]{\@author}
+\fancyfoot[R]{\@serie}
+
+\fancyhead[R]{\@title}
+\fancyhead[L]{\includegraphics[scale=0.04]{./Images/logo_phelma.png}}
+
+
+
+% \newcommand*{\doctitle}[1]{\def\@doctitle{#1}}
+\AtEndPreamble{
+  \hypersetup{ % paramètres des liens hypertextes
+      pdftitle = {\@doctitle{}},
+      colorlinks=true,
+      linkcolor=blue!65!green,
+  }
+}
+\AtEndPreamble{}
+% Couleurs
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{myred}{rgb}{1,0.18,0.14}
+
+%Panneau attention
+\newcommand{\attention}{{\fontencoding{U}\fontfamily{futs}\selectfont\char 66\relax}}
+
+%Flèche relative
+\newcommand{\subarrow}{\qquad\rotatebox[origin=c]{180}{$\Lsh$}\ }
+
+\lstnewenvironment{code-latex}[1][]{
+	\lstset{
+		backgroundcolor=\color{green!5},   % choose the background color; you must add \RequirePackage{color} or \RequirePackage{xcolor}; should come as last argument
+		upquote=true,
+		columns=flexible,
+		basicstyle=\ttfamily,
+		language={[LaTeX]TeX},
+		texcsstyle=*\color{blue},
+		commentstyle=\color{gray},
+		moretexcs={abslabeldelim,setlength,abstitleskip},#1
+	}
+}{}
+
+\lstnewenvironment{code-c}[2][1]{
+	\lstset{
+		backgroundcolor=\color{green!5},   % choose the background color; you must add \RequirePackage{color} or \RequirePackage{xcolor}; should come as last argument
+		upquote=true,
+		columns=flexible,
+		basicstyle=\ttfamily,
+		language={C},
+		keywordstyle=\bfseries\color{blue},
+		commentstyle=\itshape\color{gray},
+		%keywordstyle=\bfseries\color{green!40!black},
+  		%identifierstyle=\color{mymauve},
+		firstnumber=#1,                % start line enumeration with line 1000
+		%breaklines=true,                 % sets automatic line breaking
+  		numbers=#2,                    % where to put the line-numbers; possible values are (none, left, right)
+		numberstyle=\small\color{mygray}, % the style that is used for the line-numbers
+	}
+}{}
+
+\lstnewenvironment{code-bash}[2][1]{
+	\lstset{
+		backgroundcolor=\color{green!5},   % choose the background color; you must add \RequirePackage{color} or \RequirePackage{xcolor}; should come as last argument
+		upquote=true,
+		columns=flexible,
+		basicstyle=\ttfamily,
+		language={bash},
+		keywordstyle=\bfseries\color{blue},
+		commentstyle=\itshape\color{gray},
+		%keywordstyle=\bfseries\color{green!40!black},
+  		%identifierstyle=\color{mymauve},
+		firstnumber=#1,                % start line enumeration with line 1000
+  		numbers=#2,                    % where to put the line-numbers; possible values are (none, left, right)
+		%breaklines=true,                 % sets automatic line breaking
+		numberstyle=\small\color{mygray}, % the style that is used for the line-numbers
+		showstringspaces=false,          % underline spaces within strings only
+		morekeywords={ls,mkdir,touch}
+	}
+}{}
+
+\lstnewenvironment{code-test}[2][1]{
+	\lstset{
+		backgroundcolor=\color{green!5},   % choose the background color; you must add \RequirePackage{color} or \RequirePackage{xcolor}; should come as last argument
+		upquote=true,
+		columns=flexible,
+		basicstyle=\ttfamily,
+		language={bash},
+		keywordstyle=\bfseries\color{blue},
+		commentstyle=\itshape\color{gray},
+		%keywordstyle=\bfseries\color{green!40!black},
+  		%identifierstyle=\color{mymauve},
+		firstnumber=#1,                % start line enumeration with line 1000
+  		numbers=#2,                    % where to put the line-numbers; possible values are (none, left, right)
+		%breaklines=true,                 % sets automatic line breaking
+		numberstyle=\small\color{mygray}, % the style that is used for the line-numbers
+		showstringspaces=false,          % underline spaces within strings only
+		morekeywords={assert, set, disp, debug, resume, load, exit}
+	}
+}{}
+
+\newaliascnt{eqfloat}{equation}
+\newfloat{eqfloat}{h}{eqflts}
+\floatname{eqfloat}{Equation}
+
+\newcommand*{\ORGeqfloat}{}
+\let\ORGeqfloat\eqfloat
+\def\eqfloat{%
+  \let\ORIGINALcaption\caption
+  \def\caption{%
+    \addtocounter{equation}{-1}%
+    \ORIGINALcaption
+  }%
+  \ORGeqfloat
+}
+
+
+\renewcommand{\maketitle}{
+
+\begin{titlepage}
+  % \begin{sffamily}
+  \begin{center}
+
+    % Upper part of the page. The '~' is needed because \\
+    % only works if a paragraph has started.
+
+    \includegraphics[scale=0.15]{./Images/logo_phelma.png}~\\[1.5cm]
+
+    \textsc{\LARGE \ifthenelse {\equal{\@titleone}{}} {~} {\@titleone} }\\[1cm]
+
+    \textsc{\huge \ifthenelse {\equal{\@titletwo}{}} {~} {\@titletwo}}\\[1cm]
+ 	\textsc{\Large \ifthenelse {\equal{\@titlethree}{}} {~} {\@titlethree}}
+  \\[0.5cm]
+	{\color{blue!65!green}
+
+    	% Title
+    	\HRule \\[0.4cm]
+    	{ \Huge \bfseries \@title\\[0.4cm] }
+
+    	\HRule \\[2cm]
+    	}
+
+
+
+	\vfill{
+
+    % Author and supervisor
+    \begin{minipage}{0.4\textwidth}
+      \begin{flushleft} \Large
+        \@author
+      \end{flushleft}
+    \end{minipage}
+    \begin{minipage}{0.4\textwidth}
+      \begin{flushright} \Large
+        \@supervisor
+      \end{flushright}
+    \end{minipage}
+    \begin{minipage}{0.4\textwidth}
+    	\begin{center} \Large
+    		~\\~\\\emph{Série :} \@serie\\
+    	\end{center}
+    \end{minipage}
+    ~\\~\\~\\~\\
+    % }
+	% \vfill
+  %   Bottom of the page
+    \large \@date}
+
+  \end{center}
+ % \end{sffamily}
+\end{titlepage}
+}
+
+
+%-------------------------------------------------------------------------------
+%                overall design commands definitions
+%-------------------------------------------------------------------------------
+% elements
+%---------
+% defines the document title
+% usage: \doctitle{<document_title>}
+\newcommand*{\doctitle}[1]{\def\@doctitle{#1}}
+
+% defines the serie
+% usage: \serie{<serie>}
+\newcommand*{\serie}[1]{\def\@serie{#1}}
+
+% defines the supervisor
+% usage: \supervisor[<function>]{<name of the supervisor>}
+\newcommand*{\supervisor}[2][1]{\def\@supervisor{\emph{\ifthenelse{\equal{#1}{1}}{}{#1}}#2}}
+
+% defines the first title
+% usage: \titleone{<titleone>}
+\newcommand*{\titleone}[1]{\def\@titleone{#1}}
+
+% defines the second title
+% usage: \titletwo{<titletwo>}
+\newcommand*{\titletwo}[1]{\def\@titletwo{#1}}
+
+% defines the third title
+% usage: \titlethree{<titlethree>}
+\newcommand*{\titlethree}[1]{\def\@titlethree{#1}}
+
+
+% table of contents
+%---------
+
+% creates table of contents without colored links
+% usage: \toc
+\newcommand*{\toc}{
+    {\hypersetup{hidelinks} \tableofcontents }
+    \noindent\hrulefill
+}
+
+% creates table of contents without colored links on a full page
+% usage: \tocpage
+\newcommand*{\tocpage}{
+    {\hypersetup{hidelinks} \tableofcontents }
+    \newpage
+}
+
+%listoffigures
+%---------
+
+% creates list of figures without colored links
+% usage: \tocfig
+
+\newcommand*{\tocfig}{
+    {\hypersetup{hidelinks} \listoffigures }
+    \noindent\hrulefill
+}
+
+% creates list of figures without colored links on a full page
+% usage: \tocf
+\newcommand*{\tocf}{
+    {\hypersetup{hidelinks} \listoffigures }
+    \newpage
+}
+%----------------------------------------------------------------------------------------
