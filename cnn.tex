@@ -1,6 +1,6 @@
 \section{Convolutional Neural Network}
 
-The CNN is trained on the CIFAR-10 dataset. It is a 60000 images dataset containing 32x32 colored and labeled images. There are 10 labels:
+The CNN is trained on the CIFAR-10 (Canadian Institute for Advanced Reseach) dataset. It is a 60000 images dataset containing 32x32 colored and labeled images. There are 10 labels:
 
 \begin{table}[H]
   \centering
@@ -12,13 +12,43 @@ The CNN is trained on the CIFAR-10 dataset. It is a 60000 images dataset contain
   \caption{CIFAR-10 classes}
 \end{table}
 
+
 To be able to correctly classify the input images, a multi layer CNN is implemented using the provided coefficient files.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\linewidth]{./Images/Basic-CNN.png}
+  \includegraphics[width=0.8\linewidth]{./Images/Basic-CNN.png}
   \caption{'Basic' CNN architecture for CIFAR-10}
 \end{figure}
 
+The imput of the CNN should be a 24x24 3 layers (RGB) image. A normalisation and cropping step is therefore recquired prior to the CNN. Its output is a vector containing 10 values. The highest of these 10 values represents the predicted label.
 
+The following images are part of the dataset:
 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\linewidth]{./Images/cifar_images.png}
+  \caption{Samples from the dataset}
+\end{figure}
+
+\subsection{CNN subparts overview}
+
+\subsubsection{Crop \& Normalize}
+
+The neural network works on 24x24 images while the CIFAR-10 images are 32x32. A crop step is needed, its output is the 24x24 center of the input image.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\linewidth]{./Images/crop.png}
+  \caption{Geometry of the crop step}
+\end{figure}
+
+After cropping comes normalisation. A single average and standard deviation pair needs to be computed for all input image layers. Normalising every layer separately would change the color of the image, so an all layers normalisation is needed. \\
+The two values are calculated using their standard formulas. Let $m_{i,j}$ be input image's pixel located at the (i,j) position.
+
+  $average = \frac{1}{N}\displaystyle\sum_{i=0}^{23}\sum_{j=0}^{23}m_{i,j}$ \\
+  $deviation = max\left(\frac{1}{\sqrt{N}}, \sqrt{\frac{1}{N}\displaystyle\sum_{i=0}^{23}\sum_{j=0}^{23}(m_{i,j}-average)^{2}}\right)$
+
+After these steps, the images are readdy to be categorised using the actual CNN.
+
+\subsubsection{Convolution}
