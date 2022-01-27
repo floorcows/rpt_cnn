@@ -52,3 +52,22 @@ The two values are calculated using their standard formulas. Let $m_{i,j}$ be in
 After these steps, the images are readdy to be categorised using the actual CNN.
 
 \subsubsection{Convolution}
+
+A convolution takes n input layers and outputs m same-sized output layers. It also recquires m kernels and m biases, one for each output layer.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\linewidth]{./Images/conv.png}
+  \caption{Computation of the (1,1) pixel of a layer of the output image using a 3x3 kernel}
+\end{figure}
+
+For each pixel of the current layer of the output image, the kernel is multiplied (pixel by pixel) with the input image. All of the products are then summed together with the layer bias. The result becomes the value of the corresponding output pixel, as seen in the previous figure.
+
+This operation is repeated m times for each output layer. A new set of kernel+bias is used for each output layer.
+
+\subsubsection{Rectified linear unit (RELU)}
+
+The RELU is used to introduce non-linearity in the CNN. It is simple to implement and is defined as follows:
+
+
+
